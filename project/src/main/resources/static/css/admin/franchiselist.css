@@ -1,0 +1,179 @@
+/* 전체 배경 색상 및 폰트 설정 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2e2e2e; /* 어두운 회색 배경 */
+    color: #e0e0e0; /* 밝은 회색 텍스트 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* 사이드바를 페이지의 왼쪽에 고정 */
+.content {
+    margin-left: 250px; /* 사이드바 너비 만큼 여백 추가 */
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* 제목 스타일링 */
+h1 {
+    color: #f0f0f0; /* 밝은 회색 텍스트 */
+    margin-bottom: 20px;
+}
+
+/* 버튼 스타일링 */
+.btn-add {
+    display: inline-block;
+    background-color: #007bff; /* 파란색 버튼 배경 */
+    color: #fff; /* 버튼 텍스트 색상 */
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #0056b3; /* 버튼 호버 시 더 어두운 파란색 */
+}
+
+/* 테이블 스타일링 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #333; /* 테이블 배경 색상 */
+}
+
+thead {
+    background-color: #444; /* 헤더 배경 색상 */
+}
+
+th, td {
+    border: 1px solid #555; /* 셀 테두리 색상 */
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    color: #e0e0e0; /* 헤더 텍스트 색상 */
+}
+
+td {
+    color: #ddd; /* 셀 텍스트 색상 */
+}
+
+/* 버튼 스타일링 */
+.btn-edit, .btn-delete {
+    background-color: #007bff; /* 기본 버튼 배경 색상 */
+    color: #fff; /* 버튼 텍스트 색상 */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-edit {
+    background-color: #28a745; /* 초록색 수정 버튼 */
+}
+
+.btn-edit:hover {
+    background-color: #1e7e34; /* 수정 버튼 호버 시 색상 변화 */
+}
+
+.btn-delete {
+    background-color: #dc3545; /* 빨간색 삭제 버튼 */
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* 삭제 버튼 호버 시 색상 변화 */
+}
+
+/* 프랜차이즈 이름 링크 스타일 */
+.franchise-link {
+    color: #fff; /* 하얀색 텍스트 */
+    text-decoration: none;
+}
+
+.franchise-link:hover {
+    text-decoration: underline; /* 링크 호버 시 밑줄 표시 */
+}
+
+/* 카테고리 박스 스타일링 */
+.category-box {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-btn {
+    background-color: #444;
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.category-btn:hover, .category-btn.active {
+    background-color: #007bff;
+}
+
+/* 검색 폼 스타일링 */
+.search-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #555;
+    background-color: #444;
+    color: #e0e0e0;
+    border-radius: 4px;
+    max-width: 300px; 
+    
+}
+
+.search-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+/* 페이지네이션 스타일링 */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination a {
+    background-color: #444;
+    color: #e0e0e0;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover, .pagination a.active {
+    background-color: #007bff;
+}

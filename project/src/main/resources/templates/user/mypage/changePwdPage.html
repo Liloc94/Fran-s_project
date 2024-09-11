@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 변경</title>
+    <link rel="stylesheet" th:href="@{/css/user/changePwdPage.css}">
+    <link rel="stylesheet" th:href="@{/css/user/sidebar.css}">
+</head>
+<body>
+    <div class="container">
+        <!-- boardList.html에서 사용된 fragment 호출 -->
+		<div th:replace="~{fragments/header :: header}"></div>
+
+        <div class="content">
+            <h1>비밀번호 변경</h1>
+            <div class="password-form">
+                <div class="form-group">
+                    <label for="currentPassword">현재 비밀번호</label>
+                    <input type="password" id="currentPassword" name="currentPassword">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">변경할 비밀번호</label>
+                    <input type="password" id="newPassword" name="newPassword">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">변경할 비밀번호 확인</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+                <button id="changePwdBtn" type="submit" class="change-btn">변경하기</button>
+            </div>
+        </div>
+    </div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/user/mypage/changePwdPage.js"></script>
+</body>
+</html>

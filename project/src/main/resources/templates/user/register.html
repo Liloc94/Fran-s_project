@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로고</title>
+    <link rel="stylesheet" href="/css/user/register.css">	
+
+</head>
+<body>
+    <div class="container">
+        <h1>로고</h1>
+        <h2>회원가입</h2>
+        <form id="register-form" action="/register" method="post">
+            <input id="userId" class="margin-bottom-0" name="userId" type="text" placeholder="아이디" >
+            <div class="email-container">
+                <input id="userEmailLocalPart" class="height-1rem margin-top-0" name="localEmail" type="text" placeholder="이메일">
+		        <select id="userEmailDomain" class="margin-top-0" name="domainEmail">
+		        	<option value="@naver.com">@naver.com</option>
+		            <option value="@gmail.com">@gmail.com</option>
+		            <option value="@yahoo.com">@yahoo.com</option>
+		            <option value="@daum.net">@daum.net</option>
+		        </select>
+                <button class="margin-top-0" id="send-btn" type="button" style="margin-left: 10px;">인증번호</button>
+                
+            </div>
+            <div class="certification-number-container" style="display:none;">
+	            <input type="text" name="certification-number" id="certification-number" placeholder="인증번호 입력">
+	       		<button type="button" name="confirm-btn" id="confirm-btn">이메일 인증</button>	
+       		</div>
+       		<div id="email-send-info" class="info"></div>
+            <div id="duplication-id" class="error-message" ></div>
+            <div id="duplication-email" class="error-message" ></div>
+            <input id="userNickname" name="userNickname" type="text" placeholder="닉네임" >
+            <div id="duplication-nickname" class="error-message" ></div>
+            <input name="userPwd" id="pwd" class="margin-bottom-0" type="password" placeholder="비밀번호">
+            <input name="checkPwd" class="margin-top-0" type="password" placeholder="비밀번호 확인">      
+            <div id="check_pwd" class="error-message"></div>  
+                
+            <input name="userName" type="text" placeholder="이름">
+            <div id="check-name" class="error-message" ></div>
+            <button class="height-50">가입</button>
+        </form>
+    </div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/user/register.js"></script>
+</body>
+</html>

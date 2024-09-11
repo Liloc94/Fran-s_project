@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korea.project.mapper.franchise.FranchiseMapper">
+
+<select id="selectAllFranchisesPaged" resultType="com.korea.project.vo.franchise.FranchiseVO">
+SELECT
+franchise_idx as franchiseIdx,
+franchise_title as franchiseTitle,
+franchise_sectors as franchiseSectors,
+franchise_img as franchiseImg,
+franchise_stores as franchiseStores,
+franchise_avg_sales as franchiseAvgSales,
+franchise_startup_cost as franchiseStartupCost
+FROM franchise
+LIMIT #{limit} OFFSET #{offset}
+</select>
+
+<select id="selectFranchisesBySectorPaged" resultType="com.korea.project.vo.franchise.FranchiseVO">
+SELECT
+franchise_idx as franchiseIdx,
+franchise_title as franchiseTitle,
+franchise_sectors as franchiseSectors,
+franchise_img as franchiseImg,
+franchise_stores as franchiseStores,
+franchise_avg_sales as franchiseAvgSales,
+franchise_startup_cost as franchiseStartupCost
+FROM franchise
+WHERE franchise_sectors = #{sector}
+LIMIT #{limit} OFFSET #{offset}
+</select>
+
+<select id="countAllFranchises" resultType="int">
+SELECT COUNT(*) FROM franchise
+</select>
+
+<select id="countFranchisesBySector" resultType="int">
+SELECT COUNT(*) FROM franchise WHERE franchise_sectors = #{sector}
+</select>
+
+<!-- 검색창 -->
+<select id="searchFranchisesByName" resultType="com.korea.project.vo.franchise.FranchiseVO">
+    SELECT
+    franchise_idx as franchiseIdx,
+    franchise_title as franchiseTitle,
+    franchise_sectors as franchiseSectors,
+    franchise_img as franchiseImg,
+    franchise_stores as franchiseStores,
+    franchise_avg_sales as franchiseAvgSales,
+    franchise_startup_cost as franchiseStartupCost
+    FROM franchise
+    WHERE franchise_title LIKE CONCAT('%', #{name}, '%')
+    LIMIT #{limit} OFFSET #{offset}
+</select>
+
+<select id="countFranchisesByName" resultType="int">
+    SELECT COUNT(*)
+    FROM franchise
+    WHERE franchise_title LIKE CONCAT('%', #{name}, '%')
+</select>
+<select id="selectFranchiseById" resultType="com.korea.project.vo.franchise.FranchiseVO">
+    SELECT
+    franchise_idx as franchiseIdx,
+    franchise_title as franchiseTitle,
+    franchise_sectors as franchiseSectors,
+    franchise_img as franchiseImg,
+    franchise_stores as franchiseStores,
+    franchise_avg_sales as franchiseAvgSales,
+    franchise_startup_cost as franchiseStartupCost
+    FROM franchise
+    WHERE franchise_idx = #{id}
+</select>
+<select id="selectAllFranchises" resultType="com.korea.project.vo.franchise.FranchiseVO">
+        SELECT * FROM franchise
+    </select>
+    <insert id="insertFranchise" parameterType="com.korea.project.vo.franchise.FranchiseVO">
+        INSERT INTO franchise (
+            franchise_title,
+            franchise_sectors,
+            franchise_img,
+            franchise_stores,
+            franchise_avg_sales,
+            franchise_startup_cost
+        ) VALUES (
+            #{franchiseTitle},
+            #{franchiseSectors},
+            #{franchiseImg},
+            #{franchiseStores},
+            #{franchiseAvgSales},
+            #{franchiseStartupCost}
+        )
+    </insert>
+
+    <!-- 업데이트 쿼리 추가 -->
+    <update id="updateFranchise" parameterType="com.korea.project.vo.franchise.FranchiseVO">
+        UPDATE franchise
+        SET
+            franchise_title = #{franchiseTitle},
+            franchise_sectors = #{franchiseSectors},
+            franchise_img = #{franchiseImg},
+            franchise_stores = #{franchiseStores},
+            franchise_avg_sales = #{franchiseAvgSales},
+            franchise_startup_cost = #{franchiseStartupCost}
+        WHERE franchise_idx = #{franchiseIdx}
+    </update>
+
+    <!-- 딜리트 쿼리 추가 -->
+    <delete id="deleteFranchise" parameterType="int">
+        DELETE FROM franchise
+        WHERE franchise_idx = #{franchiseIdx}
+    </delete>
+    
+</mapper>

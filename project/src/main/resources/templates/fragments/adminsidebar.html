@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Sidebar</title>
+    <link rel="stylesheet" href="/css/admin/adminstyle.css" />
+</head>
+<body>
+    <div th:fragment="sidebar">
+        <div class="sidebar">
+         <div class="logo-container">
+            <img src="/categoryImages/adminlogo.png" alt="로고" class="logo">
+        </div>
+            <h2>관리 메뉴</h2>
+            <ul>
+                <li><a th:href="@{/admin/user/list}">유저 관리</a></li>
+                <li><a th:href="@{/admin/franchise/list}">프랜차이즈 관리</a></li>
+                 <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <a href="javascript:void(0);" onclick="this.closest('form').submit();">로그아웃</a>
+                </form>
+            </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

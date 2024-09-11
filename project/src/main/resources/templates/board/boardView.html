@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html  lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+<head>
+<meta charset="UTF-8">
+<title>게시글 상세 페이지</title>
+<link rel="stylesheet" href="/css/header.css" />
+<link rel="stylesheet" href="/css/board/view.css">	
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<th:block layout:fragment="content">
+		<div class="pageTitle">
+			<h3>게시글 상세보기</h3>
+		</div>
+		
+		<div class="content">
+			<section>
+				<table class="tb tbRow">
+					<tr>
+						<th scope="row">제목</th>
+						<td th:text=${vo.boardTitle}></td>
+					</tr>
+					<tr>
+						<th scope="row">대분류</th>
+						<td th:text=${vo.boardSectors}></td>
+						<th scope="row">중분류</th>
+						<td th:text=${vo.boardBigArea}></td>
+						<th scope="row">소분류</th>
+						<td th:text=${vo.boardSmallArea}></td>
+					</tr>
+					<tr>
+						<th scope="row">작성자</th>
+						<td th:text=${vo.userNickname}></td>
+						<th scope="row">작성날짜</th>
+						<td th:text=${vo.boardWriteDate}></td>
+					</tr>
+					<tr>
+						<th scope="row">내용</th>
+						<td th:text=${vo.boardContent}></td>
+					</tr>
+				</table>
+			</section>
+		</div>
+		
+		      <!-- 수정하기 -->
+        <div th:if="${session.user != null && vo.userIdx == session.user.userIdx}">
+        <button type="button" th:onclick="'location.href=\'' + @{/board/update(boardIdx=${vo.boardIdx})} + '\''">수정</button>
+        	<!-- <input type="submit" value="수정하기"> -->
+        </div>
+        
+        
+        <!-- 삭제하기 -->
+        <div th:if="${session.user != null && vo.userIdx == session.user.userIdx}">
+        	<button type="button" onclick="delPost();">삭제하기</button>
+        	<!-- <input type="submit" value="삭제하기"> -->
+        </div>
+        
+	</th:block >
+	
+	
+	<script th:inline="javascript">
+		//게시글 삭제		
+		function delPost() {
+		 	const boardIdx =   [[ ${vo.boardIdx} ]]  ;
+			
+			if( !confirm('해당 게시글을 삭제하시겠습니까?')){
+				return false;
+			}
+			
+			const formHtml =`
+				<form id="delPost" action="/board/del" method="post">
+					<input type="hidden" id="boardIdx" name="boardIdx" value="${boardIdx}" />
+				</form>
+			`;
+			
+			const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+			const form = doc.body.firstChild;
+			document.body.append(form);
+			document.getElementById('delPost').submit();
+		} 
+		
+	
+
+	</script>
+	
+
+</body>
+</html>

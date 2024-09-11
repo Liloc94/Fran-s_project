@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Franchise Detail</title>
+    <link rel="stylesheet" href="/css/franchise/franchiseboard.css">
+    <link rel="stylesheet" href="/css/header.css" />
+    <script type="text/javascript" src="/js/franchise/franchise.js" defer></script>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+  <div class="franchise-board-container">
+  <div class="franchise-card">
+    <div class="card-img">
+      <img th:src="${franchise.franchiseImg}" alt="Franchise Image">
+    </div>
+    <div class="card-content">
+      <h2 class="franchise-title" th:text="${franchise.franchiseTitle}">Franchise Title</h2>
+      <p class="franchise-info">평균 매출: <span class="avg-sales" th:text="${franchise.franchiseAvgSales}">0</span></p>
+      <p class="franchise-info">창업 비용: <span class="startup-cost" th:text="${franchise.franchiseStartupCost}">0</span></p>
+      <p class="franchise-info">전체 매장 수: <span th:text="${franchise.franchiseStores}">0</span>개</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

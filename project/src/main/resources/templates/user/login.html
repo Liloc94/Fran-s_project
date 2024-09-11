@@ -1,0 +1,39 @@
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="/css/user/login.css">	
+</head>
+<body>
+    <div class="login-container">
+        <h1 id="logo">로고</h1>
+        <form id="loginForm" action="/perform_login" method="post">
+            <input class="input-text" type="text" name="userId" placeholder="아이디">
+            <input class="input-text" type="password" name="userPwd" placeholder="비밀번호">
+            <div class="options">
+                <label>
+                    <input type="checkbox" name="rememberMe"> 내 정보 저장
+                </label>
+                <div class="links">
+                   	<a th:href="@{/find(type=id)}">아이디 찾기</a> |
+            		<a th:href="@{/find(type=password)}">비밀번호 찾기</a> |
+                    <a th:href="@{/agreement}">회원가입</a>
+                </div>
+            </div>
+            <div id="loginError" class="error-message"></div>
+            <button type="submit">로그인</button>
+        </form>
+ 
+        <div class="divider">간편 로그인</div>
+        <div class="button-container">
+       		<a href="/oauth2/authorization/google" class="social-login google btn">구글 로그인</a>
+        	<a href="/oauth2/authorization/naver" class="social-login naver btn">네이버 로그인</a>
+       	</div>
+    	</div>
+    	
+    	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="/js/user/login.js"></script>	
+</body>
+</html>

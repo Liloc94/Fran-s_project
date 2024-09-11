@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+       <meta charset="UTF-8" />
+    <title>Franchise List</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/franchise/franchise.css}" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <script>
+        function handleSearch(event) {
+            var searchInput = document.getElementById('searchInput');
+            if (searchInput.value.trim() === '') {
+                event.preventDefault();
+                alert('검색어를 입력해주세요.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+<h2 class="category-main">카테고리</h2>
+<div class="categoryBox">
+    <div class="category-btn">
+        <a th:href="@{/franchises(sector=0)}">
+       <img src="/categoryImages/Category0.png" alt="카페" class="category-img">
+        </a>
+    </div>
+    <div class="category-btn">
+        <a th:href="@{/franchises(sector=1)}">
+          <img src="/categoryImages/Category1.png" alt="음식점" class="category-img">
+        </a>
+    </div>
+    <div class="category-btn">
+        <a th:href="@{/franchises(sector=2)}">
+            <img src="/categoryImages/Category2.png" alt="치킨" class="category-img">
+        </a>
+    </div>
+    <div class="category-btn">
+        <a th:href="@{/franchises(sector=3)}">
+            <img src="/categoryImages/Category3.png" alt="분식" class="category-img">
+        </a>
+    </div>
+    <div class="category-btn">
+        <a th:href="@{/franchises(sector=4)}">
+            <img src="/categoryImages/Category4.png" alt="판매업" class="category-img">
+        </a>
+    </div>
+</div>
+
+<form th:action="@{/franchises}" method="get" class="search-form" onsubmit="handleSearch(event);">
+    <input type="text" id="searchInput" name="search" th:value="${search}" placeholder="브랜드명을 검색하세요">
+    <button type="submit">검색</button>
+</form>
+
+<div class="franchise-container">
+    <div th:if="${not #lists.isEmpty(franchises)}">
+        <div class="grid-container">
+            <div th:each="franchise : ${franchises}" class="franchise-card">
+                <!-- 전체 카드 링크로 변경 -->
+                <a th:href="@{/franchiseboard(id=${franchise.franchiseIdx})}" class="card-link">
+                    <div class="card-img">
+                        <img th:src="${franchise.franchiseImg}" alt="Franchise Image">
+                    </div>
+                    <div class="text-box">
+                        <p th:text="${franchise.franchiseTitle}" class="card-title">Franchise Title</p>
+                        <p class="category-text"
+                           th:text="${franchise.franchiseSectors == 0 ? '카페 · 디저트' :
+                                        franchise.franchiseSectors == 1 ? '음식점 · 주점' :
+                                        franchise.franchiseSectors == 2 ? '치킨 · 피자' :
+                                        franchise.franchiseSectors == 3 ? '분식 · 패스트푸드' :
+                                        franchise.franchiseSectors == 4 ? '판매업' : '기타'} + ' ' + ${franchise.franchiseStores} + ' 개'">
+                            카테고리 및 매장 수
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+                <div class="pagingBox">
+    <a th:href="@{/franchises(page=1, sector=${sector}, search=${search != null ? search : null})}">&lt;&lt;</a>
+    <a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" 
+       th:href="@{/franchises(page=${pageNumber}, sector=${sector}, search=${search != null ? search : null})}"
+       th:class="${pageNumber == pageNum ? 'active' : ''}"
+       th:text="${pageNumber}"></a>
+    <a th:href="@{/franchises(page=${totalPages}, sector=${sector}, search=${search != null ? search : null})}">&gt;&gt;</a>
+</div>
+    <div th:if="${#lists.isEmpty(franchises)}">
+        <p>표시할 프랜차이즈 정보가 없습니다.</p>
+</div>
+        
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/user/find.css">	
+
+</head>
+<body>
+	 
+ 	<div class="container">
+ 	<h1>로고</h1>
+        <h3 id="title"></h3>
+        <div class="tab-container">
+            <button class="tab" id="idTab">아이디 찾기</button>
+            <button class="tab" id="pwTab">비밀번호 찾기</button>
+        </div>
+        <div id="id-form-container" >
+            <form id="id-form">
+            	<input type="hidden" name="type" value="id">
+                <input type="text" name="req1" placeholder="이름">
+                <input type="email" name="req2" placeholder="이메일">
+                <div class=error-message></div>
+                <button class="btn" type="submit">아이디 찾기</button>
+            </form>
+        </div>
+        
+        <div id="show-find-container" style="display:none;">
+        	<input id="id-find-result" readOnly>
+        </div>
+        
+        <div id="pw-form-container" style="display:none;">
+            <form id="pw-form">
+            	<input type="hidden" name="type" value="pwd">
+                <input type="text" name="req1" placeholder="아이디">
+                <input type="email" name = "req2" placeholder="이메일">
+                <div class=error-message></div>
+                <button class="btn" type="submit">비밀번호 찾기</button>
+            </form>
+        </div>
+        
+         <div id="pw-reset-container" style="display:none;">
+            <form id="pw-reset-form">
+                <input type="password" name="newPassword" placeholder="새 비밀번호">
+                <input type="password" name="confirmPassword" placeholder="새 비밀번호 확인">
+                <div class="error-message"></div>
+                <button class="btn" type="submit">비밀번호 변경</button>
+            </form>
+        </div>
+
+        <div class="links">
+            <button class="btn" onclick="location.href='/login'">로그인페이지로 이동</button>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/js/user/find.js"></script>
+    
+</body>
+</html>

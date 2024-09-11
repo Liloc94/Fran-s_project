@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>프랜차이즈 관리</title>
+    <link rel="stylesheet" href="/css/admin/sidebar.css">
+    <link rel="stylesheet" href="/css/admin/franchiselist.css">
+     <script>
+function handleSearch(event) {
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput.value.trim() === '') {
+        event.preventDefault();
+        alert('검색어를 입력해주세요.');
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body>
+   <div th:replace="fragments/adminsidebar :: sidebar"></div>
+
+<div class="content">
+    <h1>프랜차이즈 목록</h1>
+
+    <a class="btn-add" th:href="@{/admin/franchise/add}">새 프랜차이즈 추가</a>
+
+  <div class="category-box">
+    <a class="category-btn" th:classappend="${sector == null} ? 'active'" th:href="@{/admin/franchise/list}">전체</a>
+    <a class="category-btn" th:classappend="${sector == 0} ? 'active'" th:href="@{/admin/franchise/list(sector=0)}">카페 · 디저트</a>
+    <a class="category-btn" th:classappend="${sector == 1} ? 'active'" th:href="@{/admin/franchise/list(sector=1)}">음식점 · 주점</a>
+    <a class="category-btn" th:classappend="${sector == 2} ? 'active'" th:href="@{/admin/franchise/list(sector=2)}">치킨 · 피자</a>
+    <a class="category-btn" th:classappend="${sector == 3} ? 'active'" th:href="@{/admin/franchise/list(sector=3)}">분식 · 패스트푸드</a>
+    <a class="category-btn" th:classappend="${sector == 4} ? 'active'" th:href="@{/admin/franchise/list(sector=4)}">판매업</a>
+</div>
+
+<form class="search-form" th:action="@{/admin/franchise/list}" method="get">
+    <input type="text" name="searchName" th:value="${searchName}" placeholder="프랜차이즈 검색">
+    <button type="submit">검색</button>
+</form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>카테고리</th>
+                <th>매장 수</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="franchise : ${franchises}">
+                <td th:text="${franchise.franchiseIdx}"></td>
+                <td>
+                    <a class="franchise-link" th:href="@{/franchiseboard(id=${franchise.franchiseIdx})}" th:text="${franchise.franchiseTitle}"></a>
+                </td>
+                <td th:text="${franchise.franchiseSectors}"></td>
+                <td th:text="${franchise.franchiseStores}"></td>
+                <td>
+                    <a class="btn-edit" th:href="@{/admin/franchise/edit/{id}(id=${franchise.franchiseIdx})}">수정</a>
+                    <a class="btn-delete" th:href="@{/admin/franchise/delete/{id}(id=${franchise.franchiseIdx})}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+    <a th:if="${currentPage > 1}" th:href="@{/admin/franchise/list(page=${currentPage - 1}, searchName=${searchName}, sector=${sector})}">이전</a>
+    <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+       th:href="@{/admin/franchise/list(page=${pageNum}, searchName=${searchName}, sector=${sector})}"
+       th:text="${pageNum}"
+       th:class="${pageNum == currentPage ? 'active' : ''}"></a>
+    <a th:if="${currentPage < totalPages}" th:href="@{/admin/franchise/list(page=${currentPage + 1}, searchName=${searchName}, sector=${sector})}">다음</a>
+</div>
+</div>
+</body>
+</html>

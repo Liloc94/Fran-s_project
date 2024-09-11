@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nickname Setting</title>
+    <link rel="stylesheet" th:href="@{/css/user/setNickname.css}"> <!-- CSS 파일 링크 -->
+</head>
+<body>
+    <h2>닉네임 설정</h2>
+    <form th:action="@{/user/saveNickname}" method="post">
+        <div>
+            <label for="nickname">Nickname:</label>
+            <input type="text" id="nickname" name="nickname">
+        </div>
+         <div class="error-message" ></div>
+        <div>
+            <button type="submit">확인</button>
+        </div>
+    </form>
+    
+   	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/user/setNickname.js}"></script>
+</body>
+</html>

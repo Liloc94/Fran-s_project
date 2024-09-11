@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시글 작성하기</title>
+<link rel="stylesheet" href="/css/header.css" />
+<link rel="stylesheet" href="/css/board/insert.css" />
+<script src="/js/board/insert.js"></script>
+</head>
+<body>
+    
+    <div th:replace="fragments/header :: header"></div>
+     <h3 th:text="${vo.boardIdx == 0 ? '게시글 작성' : '게시글 수정'}"></h3>
+    
+    
+      <form id="postForm" th:action="@{${vo.boardIdx == 0 ? '/board/register' : '/board/update'}}" th:object="${vo}" method="post">
+  	  
+     <input id="boardTitle" th:field="*{boardTitle}" placeholder="제목을 입력해주세요.">
+    	
+    <!-- 제목, 카테고리 대 중 소분류, 게시글내용, 작성하기버튼, 취소하기 버튼  -->
+        
+       	<!-- boardIdx를 보내주기 위한 코드 (숨김) -->
+        <div>
+            <input id="boardIdx" th:field="*{boardIdx}" type="hidden">
+        </div>
+        <!-- 카테고리 저장해서 보내주기 -->
+
+            <div id="categoryContainer">
+                <div id="sectorCategory">대분류
+                    <select name="boardSectors" id="sectorCategorySelect" th:field="*{boardSectors}">
+                        <option value="6"> 전체 </option>
+                        <option value="1">카페/디저트</option>
+                        <option value="2">음식점/주점</option>
+                        <option value="3">치킨/피자</option>
+                        <option value="4">분식/패스트푸드</option>
+                        <option value="5">판매업</option>
+                    </select> 
+                </div><!-- 대분류 -->
+                <div>
+                    <label for="bigAreaCategory">중분류</label>
+                    <select name="boardBigArea" id="bigAreaCategory" th:field="*{boardBigArea}">
+                        <option value="전체"> 전체 </option>
+                        <option value="서울특별시">서울특별시</option>
+                        <option value="경기도">경기도</option>
+                        <option value="충청북도">충청북도</option>
+                        <option value="충청남도">충청남도</option>
+                        <option value="전라남도">전라남도</option>
+                        <option value="경상북도">경상북도</option>
+                        <option value="경상남도">경상남도</option>
+                        <option value="부산광역시">부산광역시</option>
+                        <option value="인천광역시">인천광역시</option>
+                        <option value="대구광역시">대구광역시</option>
+                        <option value="광주광역시">광주광역시</option>
+                        <option value="울산광역시">울산광역시</option>
+                        <option value="세종특별자치시">세종특별자치시</option>
+                        <option value="강원특별자치도">강원특별자치도</option>
+                        <option value="전북특별자치도">전북특별자치도</option>
+                        <option value="제주특별자치도">제주특별자치도</option>
+                    </select> 
+                </div><!-- 중분류 -->
+                <div>
+                    <label for="smallAreaCategory">소분류</label>
+                    <select name="boardSmallArea" id="smallAreaCategory" th:field="*{boardSmallArea}">
+                        <option value="전체"> 전체 </option>
+                    </select>
+                </div> <!-- 소분류 -->       
+            </div><!-- categoryContainer -->
+        <div>
+            <textarea id="boardContent" th:field="*{boardContent}" placeholder="내용을 입력해주세요."></textarea>
+        </div>
+        
+  
+        
+       	<!-- 등록하기 / 수정하기-->
+        <div> 
+             <button type="submit" th:text="${vo.boardIdx == 0 ? '작성하기' : '수정하기'}"></button>
+        </div>
+        
+        
+    </form>
+
+
+</body>
+</html>

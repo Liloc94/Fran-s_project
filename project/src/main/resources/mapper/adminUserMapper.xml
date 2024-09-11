@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.korea.project.mapper.admin.AdminUserMapper">
+    <select id="selectUser" resultType="com.korea.project.vo.user.UserVO">
+        SELECT 
+            user_nickname,
+            user_email,
+            user_name,
+            user_id,
+            user_idx,
+            user_del
+        FROM 
+            user
+    </select>
+    
+    <!-- 유저 삭제 처리 -->
+    <update id="updateUser" parameterType="int">
+        UPDATE user
+        SET
+           user_del = -1
+        WHERE user_idx = #{userIdx}
+    </update>
+    
+    <select id="selectUserByPage" resultType="com.korea.project.vo.user.UserVO">
+        SELECT * FROM user
+        ORDER BY user_id
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <select id="countAllUsers" resultType="int"> <!-- 수정: resultType을 int로 변경 -->
+        SELECT COUNT(*) FROM user
+    </select>
+     <select id="selectUserByName" resultType="com.korea.project.vo.user.UserVO">
+        SELECT 
+            user_nickname,
+            user_email,
+            user_name,
+            user_id,
+            user_idx,
+            user_del
+        FROM 
+            user
+        WHERE 
+            user_name LIKE CONCAT('%', #{name}, '%')
+            OR user_nickname LIKE CONCAT('%', #{name}, '%')
+            OR user_id LIKE CONCAT('%', #{name}, '%')
+            OR user_email LIKE CONCAT('%', #{name}, '%')
+        ORDER BY user_id
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <!-- 이름, 닉네임, 아이디로 검색된 사용자 수 카운트 -->
+    <select id="countUserByName" resultType="int">
+        SELECT COUNT(*) 
+        FROM user
+        WHERE 
+            user_name LIKE CONCAT('%', #{name}, '%')
+            OR user_nickname LIKE CONCAT('%', #{name}, '%')
+            OR user_id LIKE CONCAT('%', #{name}, '%')
+            OR user_email LIKE CONCAT('%', #{name}, '%')
+    </select>
+</mapper>

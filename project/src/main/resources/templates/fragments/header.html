@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+
+</head>
+<body>
+   <header class="header">
+    <ul class="header-top">
+        <li class="mouse">
+            <a th:href="@{/}" th:text="K-Franchise" class="logo">K-Franchise</a>
+        </li>
+   		<li th:if="${session.user == null}" class="header-login">
+	        <a class="mouse" th:href="@{/login}" th:text="로그인">로그인</a>
+	        <a class="mouse" th:href="@{/register}" th:text="회원가입">회원가입</a>
+	    </li>
+	    <li th:if="${session.user != null}" class="header-login">
+	        <a class="mouse" th:href="@{/logout}" th:text="로그아웃">로그아웃</a>
+	        <a class="mouse" th:href="@{/user/mypage}">마이 페이지</a>
+	    </li>
+<!-- 		<th:block th:if="${user.user == null}">
+		    로그인하지 않은 상태
+		    <li class="header-login">
+		        <a class="mouse" th:href="@{/login}" th:text="로그인">로그인</a>
+		        <a class="mouse" th:href="@{/register}" th:text="회원가입">회원가입</a>
+		    </li>
+		</th:block>
+		
+		<th:block th:if="${user.user != null}">
+		    로그인한 상태
+		    <li class="header-login">
+		        <a class="mouse" th:href="@{/logout}" th:text="로그아웃">로그아웃</a>
+		    </li>
+		</th:block> -->
+    </ul>
+
+    <ul class="header-menu">
+        <li class="mouse"><a th:href="@{/}">홈</a></li>
+        <li class="mouse">
+            <a th:href="@{/franchises(sector=0)}">프랜차이즈</a>
+        </li>
+        <li class="mouse">
+            <a th:href="@{/board/list?boardCategory=1}" >창업후기 게시판</a>
+        </li>
+        <li class="mouse">
+            <a th:href="@{/board/list?boardCategory=0}">상권분석 게시판</a>
+        </li>
+        <li class="mouse">
+            <a th:href="@{/map}">상권분석</a>
+        </li>
+    </ul>
+</header>
+</body>
+</html>

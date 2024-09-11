@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>유저 리스트</title>
+<link rel="stylesheet" href="/css/admin/sidebar.css">
+<link rel="stylesheet" href="/css/admin/userlist.css">
+ <script>
+function handleSearch(event) {
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput.value.trim() === '') {
+        event.preventDefault();
+        alert('검색어를 입력해주세요.');
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body>
+    <div th:replace="fragments/adminsidebar :: sidebar"></div>
+
+<div class="content">
+    <h1>유저 리스트</h1>
+
+    <form class="search-form" th:action="@{/admin/user/list}" method="get">
+        <input type="text" name="searchKeyword" th:value="${searchKeyword}" placeholder="유저 검색">
+        <button type="submit">검색</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>아이디</th>
+                <th>닉네임</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>상태</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.userNickname}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.userEmail}"></td>
+                <td th:text="${user.userDel == 0 ? '활동' : '탈퇴'}"></td>
+                <td>
+                    <a class="btn-delete" th:href="@{/admin/user/delete/{id}(id=${user.userIdx})}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a th:if="${currentPage > 1}" th:href="@{/admin/user/list(page=${currentPage - 1}, searchKeyword=${searchKeyword})}">이전</a>
+        <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+           th:href="@{/admin/user/list(page=${pageNum}, searchKeyword=${searchKeyword})}"
+           th:text="${pageNum}"
+           th:class="${pageNum == currentPage ? 'active' : ''}"></a>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin/user/list(page=${currentPage + 1}, searchKeyword=${searchKeyword})}">다음</a>
+    </div>
+</div>
+</body>
+</html>

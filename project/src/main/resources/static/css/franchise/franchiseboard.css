@@ -1,0 +1,55 @@
+.franchise-board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.franchise-card {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-img {
+  width: 100%;
+  height: 0;
+  padding-bottom: 70%; /* 이미지 비율을 유지하기 위해 사용 */
+  position: relative;
+  overflow: hidden;
+}
+
+.card-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.franchise-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.franchise-info {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.avg-sales, .startup-cost {
+  font-weight: bold;
+  color: #125de6;
+}

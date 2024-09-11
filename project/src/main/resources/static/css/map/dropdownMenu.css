@@ -1,0 +1,163 @@
+.dropdown {
+    position: relative;
+    display: block;
+    width: 100%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
+}
+
+.dropdown-container {
+	display: inline-block;
+	width: 100%;
+}
+
+.region-dropdown-btn, .industry-dropdown-btn {
+	background-color: #ffffff;
+	color: gray;
+	padding: 18px 10px;
+	font-size: 16px;
+	font-weight: 700;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.region-dropdown-btn {
+	border-radius: 10px 10px 0px 0px;
+}
+
+
+.region-dropdown-btn:hover .locationPin,
+.region-dropdown-btn:hover .locationText, 
+.region-dropdown-btn:hover .regionDropdownArrow,
+.region-dropdown-btn:hover .regionDropupArrow,
+.industry-dropdown-btn:hover .industryIcon,
+.industry-dropdown-btn:hover .categorySelector,
+.industry-dropdown-btn:hover .industryDropdownArrow,
+.industry-dropdown-btn:hover .industryDropupArrow,
+.region-dropdown-btn:hover .region-dropdown-btn,
+.industry-dropdown-btn:hover .industry-dropdown-btn
+ {
+	color: royalblue;
+	opacity: 1.5;
+}
+
+.areaCategory:hover {
+	fill: royalblue;
+	color: white;
+	font-weight: 600;
+}
+
+.industry-dropdown-btn {
+	border-radius: 0px 0px 10px 10px;
+	border-top: 1px solid #dbdbdb;
+}
+
+.dropdown-content {
+    position: absolute;
+    background-color: #ffffff;
+	width: 100%;
+	box-sizing: border-box;
+	
+}
+
+.regionDropdown-section, .industryDropdown-section {
+	display: none;
+	position: absolute;
+
+	background-color: #ffffff;
+	width: 100%;
+	height: fit-content;
+	
+	text-align: center;
+	padding: 3px 0px;
+	border: 1.5px solid #ccc;
+	transition: all 0.5s ease;
+}
+
+.industryDropdown-section {
+	border-top: none;
+	border-radius: 0px 0px 10px 10px;
+}
+
+.dropdown-animation {
+	display: block;
+	z-index: 99;
+}
+
+.dropdown-content ul {
+    list-style-type: none;
+	background-color: #ffffff;
+	font-size: 13px;
+    margin: 0;
+}
+
+
+.dropdown-content ul li {
+    padding: 12px 12px;
+    cursor: pointer;
+}
+
+.dropdown-content ul li:hover {
+    background-color: #ddd;
+}
+
+.gridrow-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 그리드 */
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    height: fit-content;
+	
+	padding: 0;
+    margin: 0;
+	
+}
+
+.gridrow-3 li {
+    padding: 7px;
+	color: black; /* 폰트 컬러 */
+    background-color: #ffffff; /* 항목 배경색 */
+    border: 1px solid #ddd; /* 항목 테두리 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.industryList {
+	height: 400px;
+}
+
+
+
+.category-selector {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	
+	width: 100%;
+	padding: 10px 0px;
+	font-size: 12px;
+	font-weight: 700;
+	border-bottom: 1px solid #dddddd;
+}
+
+#sido_code, #sigoon_code, #dong_code {
+	max-height: 450px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+/* 스크롤바의 폭 너비 */
+.scrollbar::-webkit-scrollbar {
+    width: 10px;  
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #d72828; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: #d72828;  /*스크롤바 뒷 배경 색상*/
+}

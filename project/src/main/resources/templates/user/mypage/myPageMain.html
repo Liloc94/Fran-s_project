@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 프로필</title>
+    <link rel="stylesheet" th:href="@{/css/user/myPageMain.css}">
+    <link rel="stylesheet" th:href="@{/css/user/sidebar.css}">
+    <link rel="stylesheet" href="/css/header.css" />
+</head>
+<body>
+    <div class="container">
+       	<!-- boardList.html에서 사용된 fragment 호출 -->
+		<div th:replace="~{fragments/header :: header}"></div>
+		<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+        
+        <div class="mypage-content">
+            <h1>내 프로필</h1>
+            <div class="profile-form">
+                <div class="form-group">
+                    <label for="userNickname">닉네임</label>
+                    <input type="text" id="userNickname" th:value="${user.UserNickname}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="userName">이름</label>
+                    <input type="text" id="userName" th:value="${user.userName}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">이메일</label>
+                    <input type="email" id="userEmail" th:value="${user.userEmail}" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/user/mypage/myPageMain.js"></script>
+</body>
+</html>

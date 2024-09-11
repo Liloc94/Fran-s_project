@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.korea.project.mapper.board.BoardMapper">
+	
+	<!-- 게시글 리스트 조회 -->
+	<!-- <select id="findBoardList" parameterType="con.korea.project.dto.board.BoardListRequest" resultType="c.korea.project.dto.board.BoardVO">
+		SELECT B.BOARD_IDX,
+			   B.BOARD_TITLE,
+			   U.USER_NICKNAME,
+			   B.BOARD_WRITE_DATE,
+			   B.BOARD_VIEW
+		FROM BOARD B 
+		JOIN `USER` U ON B.USER_IDX = U.USER_IDX
+		ON U.USER_NICKNAME = B.USER_IDX
+		WHERE B.BOARD_DEL = 0-->
+	<!-- 게시글 목록 검색 필터 -->
+	<select id="findAll" parameterType="com.korea.project.dto.board.BoardListRequest" resultType="com.korea.project.dto.board.BoardResponse">
+		SELECT B.BOARD_IDX,
+			   B.BOARD_TITLE,
+			   U.USER_NICKNAME,
+			   B.BOARD_WRITE_DATE,
+			   B.BOARD_VIEW,
+			   B.BOARD_CATEGORY
+		FROM BOARD B
+		JOIN `USER` U ON B.USER_IDX = U.user_idx
+		<!-- JOIN "USER" U ON B.USER_IDX = U.USER_IDX -->
+		WHERE B.board_del = 0
+		AND(B.BOARD_CATEGORY = #{boardCategory})
+		
+<!-- 		<if test="boardBigArea != null">
+		    AND (B.BOARD_BIG_AREA = #{boardBigArea} OR B.BOARD_BIG_AREA = '전체')
+		</if>
+		<if test="boardSmallArea != null">
+		    AND (B.BOARD_SMALL_AREA = #{boardSmallArea} OR B.BOARD_SMALL_AREA = '전체')
+		</if>
+		<if test="searchKeyword != null and searchKeyword != ''">
+		    AND (B.BOARD_TITLE LIKE CONCAT('%', #{searchKeyword}, '%') 
+		         OR B.BOARD_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%'))
+		</if>
+		<if test="boardSectors != 0">
+		    AND (B.BOARD_SECTORS = #{boardSectors} OR B.BOARD_SECTORS = 6)
+		</if> 
+		 -->
+
+				
+
+		 
+		
+		<choose>
+            <when test="boardBigArea == null">
+               <!--  AND (B.BOARD_BIG_AREA = #{boardBigArea} OR B.BOARD_BIG_AREA = '전체') -->
+            </when>
+            <when test="boardBigArea == '전체'">
+            <!--비워둬서 그냥 나옴  -->
+            </when>
+            <otherwise>
+            	 AND (B.BOARD_BIG_AREA = #{boardBigArea})
+            </otherwise>
+        </choose>
+		<choose>
+            <when test="boardSmallArea == null">
+              <!--   AND (B.BOARD_SMALL_AREA = #{boardSmallArea} OR B.BOARD_SMALL_AREA = '전체') -->
+            </when>
+            <when test="boardSmallArea == '전체'">
+            <!--비워둬서 그냥 나옴  -->
+            </when>
+            <otherwise>
+            	 AND (B.BOARD_SMALL_AREA = #{boardSmallArea})
+            </otherwise>
+        </choose>
+		<choose>
+            <when test="boardSectors == 0">
+                <!-- AND (B.BOARD_SECTORS = #{boardSectors} OR B.BOARD_SECTORS = 6) -->
+            </when>
+            <when test="boardSectors == 6">
+            <!--비워둬서 그냥 나옴  -->
+            </when> 
+            <otherwise>
+            	 AND (B.BOARD_SECTORS = #{boardSectors} OR B.BOARD_SECTORS = 6)
+            </otherwise>
+        </choose>
+        <choose>
+        <when test="searchKeyword != null and searchKeyword != ''">
+		    AND (B.BOARD_TITLE LIKE CONCAT('%', #{searchKeyword}, '%') 
+		         OR B.BOARD_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%'))
+         </when>
+		</choose>
+        
+		ORDER BY B.BOARD_IDX DESC
+		LIMIT #{pagination.limitStart}, #{recordSize} 
+	</select>
+	
+<!-- 	</select> -->
+	
+	
+	
+	<!-- 게시글 페이지 수 카운팅-->
+	<select id="count" parameterType="com.korea.project.dto.board.BoardListRequest" resultType="int">
+		select count(*) 
+		from board 
+		
+		WHERE board_del = 0
+		
+		<choose>
+            <when test="boardBigArea == null">
+               <!--  AND (B.BOARD_BIG_AREA = #{boardBigArea} OR B.BOARD_BIG_AREA = '전체') -->
+            </when>
+            <when test="boardBigArea == '전체'">
+            <!--비워둬서 그냥 나옴  -->
+            </when>
+            <otherwise>
+            	 AND (BOARD_BIG_AREA = #{boardBigArea})
+            </otherwise>
+        </choose>
+		<choose>
+            <when test="boardSmallArea == null">
+              <!--   AND (B.BOARD_SMALL_AREA = #{boardSmallArea} OR B.BOARD_SMALL_AREA = '전체') -->
+            </when>
+            <when test="boardSmallArea == '전체'">
+            <!--비워둬서 그냥 나옴  -->
+            </when>
+            <otherwise>
+            	 AND (BOARD_SMALL_AREA = #{boardSmallArea})
+            </otherwise>
+        </choose>
+		<choose>
+            <when test="boardSectors == 0">
+                <!-- AND (B.BOARD_SECTORS = #{boardSectors} OR B.BOARD_SECTORS = 6) -->
+            </when>
+            <when test="boardSectors == 6">
+            <!--비워둬서 그냥 나옴  -->
+            </when> 
+            <otherwise>
+            	 AND (BOARD_SECTORS = #{boardSectors} OR BOARD_SECTORS = 6)
+            </otherwise>
+        </choose>
+        <choose>
+        <when test="searchKeyword != null and searchKeyword != ''">
+		    AND (BOARD_TITLE LIKE CONCAT('%', #{searchKeyword}, '%') 
+		         OR BOARD_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%'))
+         </when>
+		</choose>
+		
+<!-- 		<choose>
+            <when test="boardBigArea == null">
+                AND (B.BOARD_BIG_AREA = #{boardBigArea} OR B.BOARD_BIG_AREA = '전체')
+            </when>
+            <when test="boardBigArea == '전체'">
+            비워둬서 그냥 나옴 
+            </when>
+            <otherwise>
+            	 AND (BOARD_BIG_AREA = #{boardBigArea})
+            </otherwise>
+        </choose>
+        
+		<choose>
+            <when test="boardSmallArea == null">
+                AND (B.BOARD_SMALL_AREA = #{boardSmallArea} OR B.BOARD_SMALL_AREA = '전체')
+            </when>
+            <when test="boardSmallArea == '전체'">
+            비워둬서 그냥 나옴 
+            </when>
+            <otherwise>
+            	 AND (BOARD_SMALL_AREA = #{boarSmallArea})
+            </otherwise>
+        </choose>
+        
+		<choose>
+            <when test="boardSectors == 0">
+                AND (B.BOARD_SECTORS = #{boardSectors} OR B.BOARD_SECTORS = 6)
+            </when>
+            <when test="boardSectors == 6">
+            비워둬서 그냥 나옴 
+            </when> 
+            <otherwise>
+            	 AND (BOARD_SECTORS = #{boardSectors} OR BOARD_SECTORS = 6)
+            </otherwise>
+        </choose>
+        
+        <choose>
+	        <when test="searchKeyword != null and searchKeyword != ''">
+			    AND (BOARD_TITLE LIKE CONCAT('%', #{searchKeyword}, '%') 
+			         OR BOARD_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%'))
+	         </when>
+		</choose>
+     
+		ORDER BY BOARD_IDX DESC
+        LIMIT #{pagination.limitStart}, #{recordSize} -->
+	</select>
+	
+	
+	
+	
+	<!-- 게시글 작성 -->
+	<insert id="insert">
+		insert into board(user_idx,
+					      board_sectors, 
+					      board_big_area, 
+					      board_small_area, 
+					      board_title, 
+					      board_category, 
+					      board_content, 
+					      board_write_date, 
+					      board_view,
+					      ref)
+		values(#{userIdx},
+			   #{boardSectors},
+			   #{boardBigArea},
+			   #{boardSmallArea},
+			   #{boardTitle},
+			   #{boardCategory},
+			   #{boardContent},
+			   CURRENT_TIMESTAMP,
+			   #{boardView},
+			   LAST_INSERT_ID())
+		
+	</insert>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="findById" parameterType="int" resultType="com.korea.project.dto.board.BoardResponse">
+		SELECT
+			B.BOARD_IDX,
+			B.BOARD_TITLE,
+			B.BOARD_SECTORS,
+			B.BOARD_BIG_AREA,
+			B.BOARD_SMALL_AREA,
+			B.USER_IDX, 
+			U.USER_NICKNAME,
+			B.BOARD_WRITE_DATE,
+			B.BOARD_CONTENT
+		FROM BOARD B
+		JOIN `USER` U ON B.USER_IDX = U.user_idx
+		WHERE B.BOARD_IDX = #{boardIdx}
+	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delPost" parameterType="int">
+		UPDATE BOARD
+		SET BOARD_DEL = -1
+		WHERE BOARD_IDX = #{boardIdx}
+	</delete>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="com.korea.project.dto.board.BoardResponse">
+		UPDATE BOARD
+		SET BOARD_TITLE = #{boardTitle},
+			BOARD_SECTORS = #{boardSectors},
+			BOARD_BIG_AREA = #{boardBigArea},
+			BOARD_SMALL_AREA = #{boardSmallArea},
+			BOARD_CONTENT = #{boardContent}
+		WHERE BOARD_IDX = #{boardIdx}
+	</update>
+	
+	
+	<!-- 조회수 카운팅해서 올리기 -->
+	<update id="viewCount" parameterType="int">
+		UPDATE BOARD SET BOARD_VIEW = BOARD_VIEW +1 WHERE BOARD_IDX =#{board_idx}
+	</update>
+	
+	<update id="boardUpdate" parameterType="int">
+		UPDATE BOARD SET
+		REDHIT = READHIT _1
+		WHERE BOARD_IDX = #{boardIdx}
+	</update>
+	
+	
+	
+</mapper>

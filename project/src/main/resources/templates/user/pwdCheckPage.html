@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/css/user/pwdCheckPage.css}" />
+  
+</head>
+<body>
+   <div class="container">
+        <div class="inner-container">
+            <div class="inner">
+                <div class="pwd-inner">
+                    <form id="pwd-form" th:action="@{/user/check-password}" method="post">
+                        <input type="password" name="password" placeholder="비밀번호">
+                        <div class="error-message" style="display:none;"></div>
+                        <div class="btn-inner">
+                            <button type="submit">확인</button>
+                            <button type="button">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/user/pwdCheckPage.js}"></script>
+</body>
+</html>

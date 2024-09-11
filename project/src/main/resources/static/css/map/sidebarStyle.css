@@ -1,0 +1,191 @@
+#sidebar-container {
+	position: relative;
+	height: 100vh;
+	width: 300px;
+	z-index: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	transition: all 0.5s ease;
+}
+
+#sidebar {
+	position: absolute;
+	top: 0;
+	left: 0;
+    
+	display: flex;
+	flex-direction: column;
+
+	gap: 100px;
+	height: 100%;
+    width: 400px;
+    z-index: 0;
+    background-color: #fff;
+    transition: 0.5s;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.4);
+	transition: all 0.5s ease;
+    }
+
+	/* 사이드바 버튼 컨테이너 */
+.sidebar-btn-container {
+	position: absolute;
+	top: 40%;
+	right: -125px;
+	
+	width: 25px;
+	height: 40px;
+	padding: 0;
+	
+	background-color: white;
+	border-top-right-radius: 9px;
+	border-bottom-right-radius: 9px;
+	border-left: none;
+	border: 0.5px solid #dbdbdb;
+	cursor: pointer;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+	}
+	
+.sidebar-btn-container:hover {
+	border-top-color: #d72828;
+	border-right-color: #d72828;
+	border-bottom-color: #d72828;
+}
+
+.expand-arrow, .reduct-arrow {
+	color: #d72828;
+	font-size: 20px;
+	transition: all 0.5s ease;
+	}
+	
+.invisible {
+	display: none !important;
+}
+
+/* 사이드바 축소 시 */
+.collapsed {
+    transform: translateX(-400px);
+}
+
+.reset-area-btn, .reset-icon {
+	color: deepskyblue;
+	font-weight: 700;
+	font-size: 13px;
+	text-align: right;
+	cursor: pointer;
+}
+
+.reset-area-btn:hover {
+	opacity: 0.5;
+}
+
+.first-form {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+	
+.label-text {
+	font-size: 12px;
+	text-align: left;
+}
+
+.location-marker {
+	padding-bottom: 5px;
+	font-weight: 700;
+}
+
+.input-container {
+	position: relative;
+	width: 100%;
+}
+
+.location-marker-icon {
+	position: absolute;
+	top: 19px;
+	left: 10px;
+	color: blue;
+}
+
+#current-location {
+	position: absolute;
+
+	padding: 18px 40px;
+	outline: none;
+	cursor: default;
+	
+	border: none;
+	background-color: #F5F7FA;
+	
+	font-weight: 700;
+	font-size: 16px;
+}
+	
+.form-group {
+	margin-bottom: 20px;
+	}
+	
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+    }
+	
+.form-group input, .form-group select {
+	width: 100%;
+	padding: 8px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+    }
+
+.locationContainer {
+	padding-top: 20px;
+	transition: all 0.5s ease;
+}
+.form-container {
+	padding-top: 70px;
+	transition: all 0.5s ease;
+}
+	
+.reportBtn {
+	width: 95%;
+	padding: 15px 10px;
+	margin: 0 auto;
+	background-color: #d72828;
+	color: white;
+	border: 2px solid white;
+	border-radius: 7px;
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: 700;
+	transition: all 0.2s;
+	box-sizing: border-box;
+	opacity: 1;
+    }
+	
+.reportBtn:hover {
+	transform: scale(1.02);
+	color:#d72828;
+	border: 2px solid #d72828;
+	background-color: white;
+	opacity: 2;
+}
+	
+.selectedSido, .selectedSig, .selectedEmd {
+	color: royalblue;
+}
+.locationText {
+	font-weight: 600;
+	font-size: 16px;
+}
+.blue {
+	color: royalblue;
+}

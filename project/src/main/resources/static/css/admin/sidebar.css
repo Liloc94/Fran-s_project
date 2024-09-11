@@ -1,0 +1,60 @@
+/* sidebar.css */
+
+/* 사이드바 스타일링 */
+.sidebar {
+    position: fixed; /* 고정 위치 */
+    top: 0;
+    left: 0;
+    width: 200px; /* 사이드바 너비 */
+    height: 100vh; /* 전체 높이 */
+    background-color: #1e1e1e; /* 사이드바 배경 색상 */
+    color: #e0e0e0; /* 사이드바 텍스트 색상 */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* 사이드바 그림자 */
+    overflow-y: auto; /* 사이드바 내용 스크롤 */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+}
+
+.sidebar a {
+    color: #e0e0e0; /* 링크 텍스트 색상 */
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    color: #007bff; /* 링크 호버 색상 */
+}
+
+.sidebar button {
+    background-color: #dc3545; /* 버튼 배경 색상 */
+    color: #fff; /* 버튼 텍스트 색상 */
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #c82333; /* 버튼 호버 색상 */
+}
+/* 로고 컨테이너 스타일링 */
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 로고 이미지 스타일링 */
+.logo {
+    max-width: 150px; /* 로고의 최대 너비 */
+    height: auto; /* 높이 자동 조정 */
+}
