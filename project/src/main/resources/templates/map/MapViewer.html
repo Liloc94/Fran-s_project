@@ -1,580 +1,706 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>::: K-Franchise Map :::</title>
-    <link rel="stylesheet" href="/css/map/mapStyle.css">
-    <link rel="stylesheet" href="/css/map/sidebarStyle.css">
-    <link rel="stylesheet" href="/css/map/dropdownMenu.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="/css/map/mapStyle.css" />
+    <link rel="stylesheet" href="/css/map/sidebarStyle.css" />
+    <link rel="stylesheet" href="/css/map/dropdownMenu.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0724bf330998cfd60824078a8ffae4e&libraries=services"></script>
-</head>
-<body>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0724bf330998cfd60824078a8ffae4e&libraries=services"
+    ></script>
+  </head>
+  <body>
+    <!-- 맵 렌더링 태그 -->
+    <div id="map"></div>
 
-<!-- 맵 렌더링 태그 -->
-<div id="map"></div>
-
-<div id="sidebar-container">
-    <div id="sidebar">
+    <div id="sidebar-container">
+      <div id="sidebar">
         <div class="form-group locationContainer">
-            <label for="current-location" class="location-marker">현재 위치</label>
-            <div class="input-container">
-                <input type="text" id="current-location" th:value="${areaName}" placeholder="지역을 선택해 주세요" readonly>
-                <i class="fa-solid fa-location-crosshairs location-marker-icon"></i>
-            </div>
+          <label for="current-location" class="location-marker"
+            >현재 위치</label
+          >
+          <div class="input-container">
+            <input
+              type="text"
+              id="current-location"
+              th:value="${areaName}"
+              placeholder="지역을 선택해 주세요"
+              readonly
+            />
+            <i class="fa-solid fa-location-crosshairs location-marker-icon"></i>
+          </div>
         </div>
 
         <div class="form-group">
-            <div class="first-form">
-                <label class="label-text">분석 지역 | 업종 선택</label>
-                <p class="reset-area-btn" onclick="resetSelection()"><i
-                        class="fa-solid fa-arrow-rotate-left reset-icon"></i> 다시 선택</p>
-            </div>
-            <div class="dropdown">
-                <button id="regionDropBtn" onclick="toggleDropdown('regionDropdown')" class="region-dropdown-btn">
-                    <i class="fa-solid fa-location-dot locationPin"></i>
-                    <span class="locationText">분석 지역을 선택해 주세요</span>
-                    <i class="fa-solid fa-chevron-down regionDropdownArrow"></i>
-                    <i class="fa-solid fa-chevron-up regionDropupArrow invisible"></i>
-                </button>
-                <div id="regionDropdown" class="dropdown-content">
-                    <div class="regionDropdown-section">
-                        <div class="category-selector">
-                            <span class="sido">시/도</span>
-                            <i class="fa-solid fa-angle-right progressAngle"></i>
-                            <span class="sig">시/군/구</span>
-                            <i class="fa-solid fa-angle-right progressAngle"></i>
-                            <span class="emd">읍/면/동</span>
-                        </div>
-                        <ul id="regionList" class="gridrow-3">
-                            <!-- 시/도, 시/군/구, 읍/면/동, 리/동 드롭다운 목록 -->
-                            <ul id="sido_code" class="dropdown-content gridrow-3 scrollbar"></ul>
-                            <ul id="sigoon_code" class="dropdown-content gridrow-3 scrollbar" style="display:none;"></ul>
-                            <ul id="dong_code" class="dropdown-content gridrow-3 scrollbar" style="display:none;"></ul>
-                        </ul>
-                    </div>
+          <div class="first-form">
+            <label class="label-text">분석 지역 | 업종 선택</label>
+            <p class="reset-area-btn" onclick="resetSelection()">
+              <i class="fa-solid fa-arrow-rotate-left reset-icon"></i> 다시 선택
+            </p>
+          </div>
+          <div class="dropdown">
+            <button
+              id="regionDropBtn"
+              onclick="toggleDropdown('regionDropdown')"
+              class="region-dropdown-btn"
+            >
+              <i class="fa-solid fa-location-dot locationPin"></i>
+              <span class="locationText">분석 지역을 선택해 주세요</span>
+              <i class="fa-solid fa-chevron-down regionDropdownArrow"></i>
+              <i class="fa-solid fa-chevron-up regionDropupArrow invisible"></i>
+            </button>
+            <div id="regionDropdown" class="dropdown-content">
+              <div class="regionDropdown-section">
+                <div class="category-selector">
+                  <span class="sido">시/도</span>
+                  <i class="fa-solid fa-angle-right progressAngle"></i>
+                  <span class="sig">시/군/구</span>
+                  <i class="fa-solid fa-angle-right progressAngle"></i>
+                  <span class="emd">읍/면/동</span>
                 </div>
-                <button id="industryDropBtn" onclick="toggleDropdown('industryDropdown')" class="industry-dropdown-btn">
-                    <i class="fa-solid fa-building industryIcon"></i>
-                    <span class="categorySelector"> 분석 업종을 선택해 주세요 </span>
-                    <i class="fa-solid fa-chevron-down industryDropdownArrow"></i>
-                    <i class="fa-solid fa-chevron-up industryDropupArrow invisible"></i>
-                </button>
-                <div id="industryDropdown" class="dropdown-content">
-                    <div class="industryDropdown-section">
-						<div class="category-selector">
-							<span>엄종</span>							>
-						</div>
-                        <ul id="industryList" class="gridrow-3">
-                            <!-- 업종 드롭다운 리스트 목록 -->
-							<li id="food_category" class="dropdown-content">
-								식당
-							</li>
-							<li id="cafe_category" class="dropdown-content">
-								카페
-							</li>
-							<li id="store_category" class="dropdown-content">
-								판매점
-							</li>							
-                        </ul>
-                    </div>
-                </div>
+                <ul id="regionList" class="gridrow-3">
+                  <!-- 시/도, 시/군/구, 읍/면/동, 리/동 드롭다운 목록 -->
+                  <ul
+                    id="sido_code"
+                    class="dropdown-content gridrow-3 scrollbar"
+                  ></ul>
+                  <ul
+                    id="sigoon_code"
+                    class="dropdown-content gridrow-3 scrollbar"
+                    style="display: none"
+                  ></ul>
+                  <ul
+                    id="dong_code"
+                    class="dropdown-content gridrow-3 scrollbar"
+                    style="display: none"
+                  ></ul>
+                </ul>
+              </div>
             </div>
+            <button
+              id="industryDropBtn"
+              onclick="toggleDropdown('industryDropdown')"
+              class="industry-dropdown-btn"
+            >
+              <i class="fa-solid fa-building industryIcon"></i>
+              <span class="categorySelector"> 분석 업종을 선택해 주세요 </span>
+              <i class="fa-solid fa-chevron-down industryDropdownArrow"></i>
+              <i
+                class="fa-solid fa-chevron-up industryDropupArrow invisible"
+              ></i>
+            </button>
+            <div id="industryDropdown" class="dropdown-content">
+              <div class="industryDropdown-section">
+                <div class="category-selector"><span>엄종</span> ></div>
+                <ul id="industryList" class="gridrow-3">
+                  <!-- 업종 드롭다운 리스트 목록 -->
+                  <li id="food_category" class="dropdown-content">식당</li>
+                  <li id="cafe_category" class="dropdown-content">카페</li>
+                  <li id="store_category" class="dropdown-content">판매점</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
         <button class="reportBtn" onclick="viewReport()">상권 분석</button>
-    </div>
-    <button class="sidebar-btn-container" onclick="toggleSidebar()">
+      </div>
+      <button class="sidebar-btn-container" onclick="toggleSidebar()">
         <i class="fa-solid fa-caret-right expand-arrow invisible"></i>
         <i class="fa-solid fa-caret-left reduct-arrow"></i>
-    </button>
-</div>
+      </button>
+    </div>
 
-
-<!-----------------------------------  스크립트 파일 ---------------------------------------------->
-<script th:inline="javascript">
-    // 페이지 로드가 완료된 후 맵 초기화
-    document.addEventListener('DOMContentLoaded', function() {
-        kakao.maps.load(function() {
-            initMap();
+    <!-----------------------------------  스크립트 파일 ---------------------------------------------->
+    <script th:inline="javascript">
+      // 페이지 로드가 완료된 후 맵 초기화
+      document.addEventListener("DOMContentLoaded", function () {
+        kakao.maps.load(function () {
+          initMap();
         });
-    });
-	
-	const polygonData = [
-		sido[type],
-		sig[type],
-		emd[type],
-	];
+      });
 
-	// 카테고리 선택 상태 저장용
-	let sidoSelected = false;
-	let sigSelected = false;
-	let emdSelected = false;
-	let industrySelected = false;
-	let polygonSelected = false;
+      const polygonData = [sido[type], sig[type], emd[type]];
 
-	let selectedRegionText = ""; // 상권분석 버튼 클릭이벤트 참조용 카테고리텍스트 저장변수
-	let locationInnerText = ""; // 현재 위치 텍스트 저장변수
-	let areaName = ""; // 마우스가 위치한 지역명 저장변수
-	let setLocationText = ""; // 사이드바 토글이벤트 참조용 지역명변수
-	
-	// api key 상수화
-	const REST_API_KEY = 'a4d8b66c8d9ca3874f07a17519f828dc';
+      // 카테고리 선택 상태 저장용
+      let sidoSelected = false;
+      let sigSelected = false;
+      let emdSelected = false;
+      let industrySelected = false;
+      let polygonSelected = false;
 
-	$(document).ready(function() {
-	
-		// 클래스 선택자를 사용하여 요소 선택
-		const targetNode = document.querySelector('.locationText');
-		
-		// 선택된 요소가 유효한지 확인
-		if (targetNode) {	
-			// MutationObserver를 설정하여 DOM 변화를 감지
-			const observer = new MutationObserver((mutationsList, observer) => {
-				let isTextChanged = false;
-				for (let mutation of mutationsList) {
-					if (mutation.type === 'characterData' || mutation.type === 'childList' || mutation.type === 'subtree' && !isTextChanged) {
-						// 텍스트가 변경되면 change 이벤트를 트리거
-						$('.locationText').trigger('change');
-						// change 이벤트 핸들러
-						console.log('분석지역 텍스트내용 변경 감지됨.');
-						updateClassesAndVisibility('.locationText, .regionDropupArrow, .regionDropdownArrow, .locationPin, .categorySelector, .industryDropupArrow, .industryDropdownArrow, .industryIcon', '.blue', '');
-						isTextChanged = true;
-					}
-				}
-			});
-				// 감지할 대상과 옵션 설정
-				observer.observe(targetNode, { childList: true, subtree: true, characterData: true });
-				}
-			});
-			
-		
-	
-	
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
+      let selectedRegionText = ""; // 상권분석 버튼 클릭이벤트 참조용 카테고리텍스트 저장변수
+      let locationInnerText = ""; // 현재 위치 텍스트 저장변수
+      let areaName = ""; // 마우스가 위치한 지역명 저장변수
+      let setLocationText = ""; // 사이드바 토글이벤트 참조용 지역명변수
 
-// 마우스 위치좌표에 있는 지역의 행정구역명 구하는 함수
-function getAddressByCoords(x, y) {
-        $.ajax({
-            url: 'https://dapi.kakao.com/v2/local/geo/coord2address.json',
-            type: 'GET',
-            headers: {
-                'Authorization': 'KakaoAK ' + REST_API_KEY
-            },
-            data: {
-                x: x,
-                y: y
-            },
-            success: function(response) {
-                if (response.documents.length > 0 && !sidoSelected && !polygonSelected) {
-                    const addressInfo = response.documents[0].address;
-					setLocationText = addressInfo.region_1depth_name + " " + addressInfo.region_2depth_name + " " + addressInfo.region_3depth_name
-                    // 좌표 query를 통해 응답받은 지역정보 현재위치에 갱신
-                    if(!sidoSelected && !polygonSelected){
-                     $('#current-location')
-                     .val(addressInfo.region_1depth_name + " " + addressInfo.region_2depth_name + " " + addressInfo.region_3depth_name);
-                    }
-                } 
-            },
-            error: function(xhr, status, error) {
-                console.error('예기치 않은 오류 : ' + error);
+      // api key 상수화
+      const REST_API_KEY = "a4d8b66c8d9ca3874f07a17519f828dc";
+
+      $(document).ready(function () {
+        // 클래스 선택자를 사용하여 요소 선택
+        const targetNode = document.querySelector(".locationText");
+
+        // 선택된 요소가 유효한지 확인
+        if (targetNode) {
+          // MutationObserver를 설정하여 DOM 변화를 감지
+          const observer = new MutationObserver((mutationsList, observer) => {
+            let isTextChanged = false;
+            for (let mutation of mutationsList) {
+              if (
+                mutation.type === "characterData" ||
+                mutation.type === "childList" ||
+                (mutation.type === "subtree" && !isTextChanged)
+              ) {
+                // 텍스트가 변경되면 change 이벤트를 트리거
+                $(".locationText").trigger("change");
+                // change 이벤트 핸들러
+                console.log("분석지역 텍스트내용 변경 감지됨.");
+                updateClassesAndVisibility(
+                  ".locationText, .regionDropupArrow, .regionDropdownArrow, .locationPin, .categorySelector, .industryDropupArrow, .industryDropdownArrow, .industryIcon",
+                  ".blue",
+                  ""
+                );
+                isTextChanged = true;
+              }
             }
-        });
-    }
+          });
+          // 감지할 대상과 옵션 설정
+          observer.observe(targetNode, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+          });
+        }
+      });
 
-function initMap() {
-    var container = document.getElementById('map');
+      // 주소-좌표 변환 객체를 생성합니다
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      // 마우스 위치좌표에 있는 지역의 행정구역명 구하는 함수
+      function getAddressByCoords(x, y) {
+        $.ajax({
+          url: "https://dapi.kakao.com/v2/local/geo/coord2address.json",
+          type: "GET",
+          headers: {
+            Authorization: "KakaoAK " + REST_API_KEY,
+          },
+          data: {
+            x: x,
+            y: y,
+          },
+          success: function (response) {
+            if (
+              response.documents.length > 0 &&
+              !sidoSelected &&
+              !polygonSelected
+            ) {
+              const addressInfo = response.documents[0].address;
+              setLocationText =
+                addressInfo.region_1depth_name +
+                " " +
+                addressInfo.region_2depth_name +
+                " " +
+                addressInfo.region_3depth_name;
+              // 좌표 query를 통해 응답받은 지역정보 현재위치에 갱신
+              if (!sidoSelected && !polygonSelected) {
+                $("#current-location").val(
+                  addressInfo.region_1depth_name +
+                    " " +
+                    addressInfo.region_2depth_name +
+                    " " +
+                    addressInfo.region_3depth_name
+                );
+              }
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("예기치 않은 오류 : " + error);
+          },
+        });
+      }
+
+      function initMap() {
+        var container = document.getElementById("map");
         var currentPolygon = null; // 현재 폴리곤 저장용 변수
         var options = {
-            center: new kakao.maps.LatLng(36.736610, 126.837611),
-            level: 12
+          center: new kakao.maps.LatLng(36.73661, 126.837611),
+          level: 12,
         };
         var map = new kakao.maps.Map(container, options);
 
-            // 데이터 로드 함수
-            function loadData(url) {
-                return fetch(url).then(response => response.json());
-            }
-
-            // 데이터 처리 함수
-            function processData(data, type) {
-                data.features.forEach(feature => {
-                    if (feature.geometry) { // geometry 값이 존재할 시, 폴리곤 그리기
-                        const coordinatesArray = feature.geometry.coordinates;
-                        coordinatesArray.forEach(coordinateSet => {
-                            const coordinates = coordinateSet.map(coord => new kakao.maps.LatLng(coord[1], coord[0]));
-                            const properties = feature.properties;
-                            const polygon = createPolygon(coordinates, properties, type);
-                        });
-                    }
-                });
-            }
-
-            // 모든 데이터를 로드한 후 폴리곤을 생성
-            Promise.all([
-            loadData('data/sido.json'),
-            loadData('data/sig.json'),
-            loadData('data/emd.json')
-            ]).then(([sidoData, sigData, emdData]) => {
-                processData(sidoData, 'sido');
-                processData(sigData, 'sig');
-                processData(emdData, 'emd');
-            }).catch(error => console.error('행정구역 경계정보 로딩 실패: ', error));
-
-            // 폴리곤 생성 함수
-            function createPolygon(coordinates, properties, type) {
-                const polygon = new kakao.maps.Polygon({
-                    map: map,
-					path: coordinates,
-					strokeWeight: 2,
-					strokeColor: 'rgba(0, 0, 0, 0)',
-					strokeOpacity: 0.8,
-					fillColor: 'rgba(0, 0, 0, 0)',
-					fillOpacity: 0.6
-                });
-				
-                polygon.properties = properties;
-                polygon.type = type;
-				
-    kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
-        if (currentPolygon !== polygon && !polygonSelected) {
-            if (currentPolygon) {
-                currentPolygon.setOptions({
-                    fillColor: 'rgba(0, 0, 0, 0)',
-                    strokeColor: 'rgba(0, 0, 0, 0)'
-                });
-            }
-            polygon.setOptions({
-                fillColor: '#ADD8E6',
-                strokeColor: '#0000FF'
-            });
-            currentPolygon = polygon;
+        // 데이터 로드 함수
+        function loadData(url) {
+          return fetch(url).then((response) => response.json());
         }
 
-        // 현재 마우스 위치 좌표로 주소를 검색해서 좌측 상단에 표시
-        let latlng = mouseEvent.latLng;
-                   let x = latlng.getLng();
-                   let y = latlng.getLat();
-                   getAddressByCoords(x, y);
-    });
-
-    // 마우스 폴리곤에서 벗어날 시 다시 투명화, currentPolygon을 null값으로 초기화
-    kakao.maps.event.addListener(polygon, 'mouseout', function() {
-        if (currentPolygon === polygon && !polygonSelected) {
-            polygon.setOptions({
-                fillColor: 'rgba(0, 0, 0, 0)',
-                strokeColor: 'rgba(0, 0, 0, 0)'
-            });
-            currentPolygon = null;
+        // 데이터 처리 함수
+        function processData(data, type) {
+          data.features.forEach((feature) => {
+            if (feature.geometry) {
+              // geometry 값이 존재할 시, 폴리곤 그리기
+              const coordinatesArray = feature.geometry.coordinates;
+              coordinatesArray.forEach((coordinateSet) => {
+                const coordinates = coordinateSet.map(
+                  (coord) => new kakao.maps.LatLng(coord[1], coord[0])
+                );
+                const properties = feature.properties;
+                const polygon = createPolygon(coordinates, properties, type);
+              });
+            }
+          });
         }
 
-    });
+        // 모든 데이터를 로드한 후 폴리곤을 생성
+        Promise.all([
+          loadData("data/sido.json"),
+          loadData("data/sig.json"),
+          loadData("data/emd.json"),
+        ])
+          .then(([sidoData, sigData, emdData]) => {
+            processData(sidoData, "sido");
+            processData(sigData, "sig");
+            processData(emdData, "emd");
+          })
+          .catch((error) =>
+            console.error("행정구역 경계정보 로딩 실패: ", error)
+          );
 
-	// 클릭한 폴리곤 기준으로 맵 이동 및 확대
-    kakao.maps.event.addListener(polygon, 'click', function(target) {
-		if (currentPolygon === polygon && !polygonSelected) {
-			
-			polygon.setOptions({
-				fillColor: '#ADD8E6',
-				strokeColor: '#0000FF'
-			});
+        // 폴리곤 생성 함수
+        function createPolygon(coordinates, properties, type) {
+          const polygon = new kakao.maps.Polygon({
+            map: map,
+            path: coordinates,
+            strokeWeight: 2,
+            strokeColor: "rgba(0, 0, 0, 0)",
+            strokeOpacity: 0.8,
+            fillColor: "rgba(0, 0, 0, 0)",
+            fillOpacity: 0.6,
+          });
 
-			// 폴리곤의 경계(boundary)를 계산합니다
-			let bounds = new kakao.maps.LatLngBounds();
-			let polygonBoundary = [];
-			
-			// 확대할 폴리곤 범위 설정
-			 Object.keys(polygon.Ug).forEach(key => {
-				let point = polygon.Ug[key];
-				polygonBoundary.push(point);
-				bounds.extend(new kakao.maps.LatLng(point.getLat(), point.getLng()));
-			});
-			
-			// 패딩 값을 설정 후 bounds에 적용 (top, right, bottom, left 순서) -> 확대 시 여백 설정
-			let padding = {top: 150, right: 150, bottom: 150, left: 150};
-			map.setBounds(bounds, padding.top, padding.right, padding.bottom, padding.left);
-			
-			// 확대할 폴리곤 범위로 시점이동
-			map.panTo(bounds);
-			
-			// 지역 카테고리 텍스트를 선택된 폴리곤의 행정구역명으로 갱신
-			$('.locationText').text(setLocationText);
-			
-			// 모든 state 변수 갱신
-			sidoSelected = true;
-			sigSelected = true;
-			emdSelected = true;
-			polygonSelected = true;
-			
-			toggleDropdown('industryDropdown');
-			
-			// 맵 직접 클릭 시 사이드바 닫혀있다면 확장시키기
-			if($('#sidebar-container').hasClass('collapsed')) {				
-			toggleSidebar();
-			}
-    	}
-	});
+          polygon.properties = properties;
+          polygon.type = type;
 
-    return polygon; // createPolygon 함수 반환값
-}
+          kakao.maps.event.addListener(
+            polygon,
+            "mouseover",
+            function (mouseEvent) {
+              if (currentPolygon !== polygon && !polygonSelected) {
+                if (currentPolygon) {
+                  currentPolygon.setOptions({
+                    fillColor: "rgba(0, 0, 0, 0)",
+                    strokeColor: "rgba(0, 0, 0, 0)",
+                  });
+                }
+                polygon.setOptions({
+                  fillColor: "#ADD8E6",
+                  strokeColor: "#0000FF",
+                });
+                currentPolygon = polygon;
+              }
 
+              // 현재 마우스 위치 좌표로 주소를 검색해서 좌측 상단에 표시
+              let latlng = mouseEvent.latLng;
+              let x = latlng.getLng();
+              let y = latlng.getLat();
+              getAddressByCoords(x, y);
+            }
+          );
 
+          // 마우스 폴리곤에서 벗어날 시 다시 투명화, currentPolygon을 null값으로 초기화
+          kakao.maps.event.addListener(polygon, "mouseout", function () {
+            if (currentPolygon === polygon && !polygonSelected) {
+              polygon.setOptions({
+                fillColor: "rgba(0, 0, 0, 0)",
+                strokeColor: "rgba(0, 0, 0, 0)",
+              });
+              currentPolygon = null;
+            }
+          });
 
-}
-// 사이드바 토글 함수
-    function toggleSidebar() {
-        $('#sidebar-container').toggleClass('collapsed');
-        $('.expand-arrow').toggleClass('invisible');
-        $('.reduct-arrow').toggleClass('invisible');
-    }
+          // 클릭한 폴리곤 기준으로 맵 이동 및 확대
+          kakao.maps.event.addListener(polygon, "click", function (target) {
+            if (currentPolygon === polygon && !polygonSelected) {
+              polygon.setOptions({
+                fillColor: "#ADD8E6",
+                strokeColor: "#0000FF",
+              });
 
-	// 드랍다운 리스트 토글함수
-	function toggleDropdown(id) {
-	    if (!polygonSelected && !emdSelected) {
-	        if (id === 'regionDropdown') {
-	            toggleDropdownClasses('.regionDropdown-section', '.regionDropdownArrow', '.regionDropupArrow');
-	            $('.industryDropdown-section').removeClass('dropdown-animation');
-	            $('.industryDropdownArrow').removeClass('invisible');
-	            $('.industryDropupArrow').addClass('invisible');
-	        } else {
-	            toggleDropdownClasses('.industryDropdown-section', '.industryDropdownArrow', '.industryDropupArrow');
-	            $('.regionDropdown-section').removeClass('dropdown-animation');
-	            $('.regionDropdownArrow').removeClass('invisible');
-	            $('.regionDropupArrow').addClass('invisible');
-	        }
-	    }
-	}
+              // 폴리곤의 경계(boundary)를 계산합니다
+              let bounds = new kakao.maps.LatLngBounds();
+              let polygonBoundary = [];
 
-	// 공통 드롭다운 클래스 토글 함수
-	function toggleDropdownClasses(sectionSelector, arrowDownSelector, arrowUpSelector) {
-	    $(sectionSelector).toggleClass('dropdown-animation');
-	    $(arrowDownSelector).toggleClass('invisible');
-	    $(arrowUpSelector).toggleClass('invisible');
-	}
+              // 확대할 폴리곤 범위 설정
+              Object.keys(polygon.Ug).forEach((key) => {
+                let point = polygon.Ug[key];
+                polygonBoundary.push(point);
+                bounds.extend(
+                  new kakao.maps.LatLng(point.getLat(), point.getLng())
+                );
+              });
 
-    $.support.cors = true;
+              // 패딩 값을 설정 후 bounds에 적용 (top, right, bottom, left 순서) -> 확대 시 여백 설정
+              let padding = { top: 150, right: 150, bottom: 150, left: 150 };
+              map.setBounds(
+                bounds,
+                padding.top,
+                padding.right,
+                padding.bottom,
+                padding.left
+              );
 
-    // 행정구역 데이터를 HTML로 변환하는 함수
-    function generateHtmlForFeatures(features, codeKey, nameKey) {
+              // 확대할 폴리곤 범위로 시점이동
+              map.panTo(bounds);
+
+              // 지역 카테고리 텍스트를 선택된 폴리곤의 행정구역명으로 갱신
+              $(".locationText").text(setLocationText);
+
+              // 모든 state 변수 갱신
+              sidoSelected = true;
+              sigSelected = true;
+              emdSelected = true;
+              polygonSelected = true;
+
+              toggleDropdown("industryDropdown");
+
+              // 맵 직접 클릭 시 사이드바 닫혀있다면 확장시키기
+              if ($("#sidebar-container").hasClass("collapsed")) {
+                toggleSidebar();
+              }
+            }
+          });
+
+          return polygon; // createPolygon 함수 반환값
+        }
+      }
+      // 사이드바 토글 함수
+      function toggleSidebar() {
+        $("#sidebar-container").toggleClass("collapsed");
+        $(".expand-arrow").toggleClass("invisible");
+        $(".reduct-arrow").toggleClass("invisible");
+      }
+
+      // 드랍다운 리스트 토글함수
+      function toggleDropdown(id) {
+        if (!polygonSelected && !emdSelected) {
+          if (id === "regionDropdown") {
+            toggleDropdownClasses(
+              ".regionDropdown-section",
+              ".regionDropdownArrow",
+              ".regionDropupArrow"
+            );
+            $(".industryDropdown-section").removeClass("dropdown-animation");
+            $(".industryDropdownArrow").removeClass("invisible");
+            $(".industryDropupArrow").addClass("invisible");
+          } else {
+            toggleDropdownClasses(
+              ".industryDropdown-section",
+              ".industryDropdownArrow",
+              ".industryDropupArrow"
+            );
+            $(".regionDropdown-section").removeClass("dropdown-animation");
+            $(".regionDropdownArrow").removeClass("invisible");
+            $(".regionDropupArrow").addClass("invisible");
+          }
+        }
+      }
+
+      // 공통 드롭다운 클래스 토글 함수
+      function toggleDropdownClasses(
+        sectionSelector,
+        arrowDownSelector,
+        arrowUpSelector
+      ) {
+        $(sectionSelector).toggleClass("dropdown-animation");
+        $(arrowDownSelector).toggleClass("invisible");
+        $(arrowUpSelector).toggleClass("invisible");
+      }
+
+      $.support.cors = true;
+
+      // 행정구역 데이터를 HTML로 변환하는 함수
+      function generateHtmlForFeatures(features, codeKey, nameKey) {
         let html = "";
-        features.forEach(function(f) {
-            let 행정구역코드 = f.properties[codeKey];
-            let 행정구역명 = f.properties[nameKey];
-            html += `<li data-value="${행정구역코드}" data-class="${행정구역명}" onclick="zoomArea('${행정구역명}')">${행정구역명}</li>`;
+        features.forEach(function (f) {
+          let 행정구역코드 = f.properties[codeKey];
+          let 행정구역명 = f.properties[nameKey];
+          html += `<li data-value="${행정구역코드}" data-class="${행정구역명}" onclick="zoomArea('${행정구역명}')">${행정구역명}</li>`;
         });
-		
-		$('#sido_code li').on('click', function() {
-		        let 행정구역코드 = $(this).data('value');
-		        let polygon = polygons[행정구역코드];
-				
-		        if (polygon) {
-		            // 폴리곤 경계를 기준으로 지도를 확대
-		            let bounds = new kakao.maps.LatLngBounds();
-		            polygon.getPath().forEach(function(point) {
-		                bounds.extend(point);
-		            });
 
-		            map.setBounds(bounds);
-		            map.panTo(bounds.getCenter());
-		        }
-		    });
+        $("#sido_code li").on("click", function () {
+          let 행정구역코드 = $(this).data("value");
+          let polygon = polygons[행정구역코드];
+
+          if (polygon) {
+            // 폴리곤 경계를 기준으로 지도를 확대
+            let bounds = new kakao.maps.LatLngBounds();
+            polygon.getPath().forEach(function (point) {
+              bounds.extend(point);
+            });
+
+            map.setBounds(bounds);
+            map.panTo(bounds.getCenter());
+          }
+        });
         return html;
-    }
+      }
 
-    // 행정구역 데이터를 가져오는 함수
-    function fetchRegionData(dataType, dataParams, targetElement, codeKey, nameKey) {
+      // 행정구역 데이터를 가져오는 함수
+      function fetchRegionData(
+        dataType,
+        dataParams,
+        targetElement,
+        codeKey,
+        nameKey
+      ) {
         $.ajax({
-            type: "get",
-            url: "https://api.vworld.kr/req/data",
-            data: $.extend({
-                key: "CEB52025-E065-364C-9DBA-44880E3B02B8",
-                domain: "http://localhost:8080",
-                service: "data",
-                version: "2.0",
-                request: "getfeature",
-                format: "json",
-                size: 1000,
-                page: 1,
-                geometry: false,
-                attribute: true,
-                crs: "EPSG:3857",
-                geomfilter: "BOX(13663271.680031825,3894007.9689600193,14817776.555251127,4688953.0631258525)",
-                data: dataType
-            }, dataParams),
-            async: false,
-            dataType: 'jsonp',
-            success: function(data) {
-				// 데이터 존재하는 지 확인 후 리스트 추가
-				if(data) {					
-	                let features = data.response.result.featureCollection.features;
-	                let html = generateHtmlForFeatures(features, codeKey, nameKey);
-	                $(targetElement).html(html);
-					console.log(features);
-				}
+          type: "get",
+          url: "https://api.vworld.kr/req/data",
+          data: $.extend(
+            {
+              key: "CEB52025-E065-364C-9DBA-44880E3B02B8",
+              domain: "http://localhost:8080",
+              service: "data",
+              version: "2.0",
+              request: "getfeature",
+              format: "json",
+              size: 1000,
+              page: 1,
+              geometry: false,
+              attribute: true,
+              crs: "EPSG:3857",
+              geomfilter:
+                "BOX(13663271.680031825,3894007.9689600193,14817776.555251127,4688953.0631258525)",
+              data: dataType,
             },
-            error: function(xhr, stat, err) {
-                console.error('데이터를 가져오는 중 오류 발생:', err);
+            dataParams
+          ),
+          async: false,
+          dataType: "jsonp",
+          success: function (data) {
+            // 데이터 존재하는 지 확인 후 리스트 추가
+            if (data) {
+              let features = data.response.result.featureCollection.features;
+              let html = generateHtmlForFeatures(features, codeKey, nameKey);
+              $(targetElement).html(html);
+              console.log(features);
             }
+          },
+          error: function (xhr, stat, err) {
+            console.error("데이터를 가져오는 중 오류 발생:", err);
+          },
         });
-    }
-	
-	// 지역 카테고리 생성 및 상호작용 함수
-    $(function() {
-		let cityName = "";
+      }
+
+      // 지역 카테고리 생성 및 상호작용 함수
+      $(function () {
+        let cityName = "";
         // 시/도 정보를 가져오는 AJAX 요청
-		//						dataType, dataParams, targetElement, codeKey, nameKey
-        fetchRegionData("LT_C_ADSIDO_INFO", null, "#sido_code", "ctprvn_cd", "ctp_kor_nm");
+        //						dataType, dataParams, targetElement, codeKey, nameKey
+        fetchRegionData(
+          "LT_C_ADSIDO_INFO",
+          null,
+          "#sido_code",
+          "ctprvn_cd",
+          "ctp_kor_nm"
+        );
 
         // 시/도를 클릭했을 때 시/군 정보를 가져오는 로직
-        $(document).on("click", "#sido_code li", function() {
-            let thisVal = $(this).data('class');
-			cityName = thisVal;
-			selectedRegionText = thisVal;
-			console.log(thisVal + " 지역 카테고리 선택됨");
-            $('#sigoon_code').show();
-            $('#sido_code').hide();
+        $(document).on("click", "#sido_code li", function () {
+          let thisVal = $(this).data("class");
+          cityName = thisVal;
+          selectedRegionText = thisVal;
+          console.log(thisVal + " 지역 카테고리 선택됨");
+          $("#sigoon_code").show();
+          $("#sido_code").hide();
 
-            if(!sidoSelected && !polygonSelected) {
-                $('.sido').html(`<span class="selectedSido">${thisVal}</span>`);
-                $('.locationText').text(thisVal);
-                locationInnerText = thisVal;
-                areaName = thisVal;
-                $('#current-location').val(areaName);
-            }
-            sidoSelected = true;
-            fetchRegionData("LT_C_ADSIGG_INFO", { attrfilter: `full_nm:like:${cityName}` }, "#sigoon_code", "sig_cd", "sig_kor_nm");
+          if (!sidoSelected && !polygonSelected) {
+            $(".sido").html(`<span class="selectedSido">${thisVal}</span>`);
+            $(".locationText").text(thisVal);
+            locationInnerText = thisVal;
+            areaName = thisVal;
+            $("#current-location").val(areaName);
+          }
+          sidoSelected = true;
+          fetchRegionData(
+            "LT_C_ADSIGG_INFO",
+            { attrfilter: `full_nm:like:${cityName}` },
+            "#sigoon_code",
+            "sig_cd",
+            "sig_kor_nm"
+          );
         });
 
         // 시/군/구  클릭했을 때 읍/면/동 정보를 가져오는 로직
-        $(document).on("click", "#sigoon_code li", function() {
-            let thisVal = $(this).text(); // 시/군 이름으로 필터링
-			selectedRegionText = selectedRegionText + " " + thisVal;
-			console.log(thisVal + " 지역 카테고리 선택됨");
-            $('#dong_code').show();
-            $('#sigoon_code').hide();
-            
-			if(!sigSelected && !polygonSelected) {
-                $('.sig').html(`<span class="selectedSig">${thisVal}</span>`);
-                locationInnerText = locationInnerText + " " + thisVal;
-                areaName = areaName + " " + thisVal;
-                $('.locationText').text(locationInnerText);
-                $('#current-location').val(areaName);
-            }
-			
-            sigSelected = true;
-            fetchRegionData("LT_C_ADEMD_INFO", { attrfilter: `full_nm:like:${cityName} ${thisVal}` }, "#dong_code", "emd_cd", "emd_kor_nm");
+        $(document).on("click", "#sigoon_code li", function () {
+          let thisVal = $(this).text(); // 시/군 이름으로 필터링
+          selectedRegionText = selectedRegionText + " " + thisVal;
+          console.log(thisVal + " 지역 카테고리 선택됨");
+          $("#dong_code").show();
+          $("#sigoon_code").hide();
+
+          if (!sigSelected && !polygonSelected) {
+            $(".sig").html(`<span class="selectedSig">${thisVal}</span>`);
+            locationInnerText = locationInnerText + " " + thisVal;
+            areaName = areaName + " " + thisVal;
+            $(".locationText").text(locationInnerText);
+            $("#current-location").val(areaName);
+          }
+
+          sigSelected = true;
+          fetchRegionData(
+            "LT_C_ADEMD_INFO",
+            { attrfilter: `full_nm:like:${cityName} ${thisVal}` },
+            "#dong_code",
+            "emd_cd",
+            "emd_kor_nm"
+          );
         });
 
         // 읍/면/동을 클릭했을 때 리 정보를 가져오는 로직
-         $(document).on("click", "#dong_code li", function() {
-             let thisVal = $(this).text(); // 읍/면/동 이름으로 필터링
-			 selectedRegionText = selectedRegionText + " " + thisVal;
-			 console.log(thisVal + " 지역 카테고리 선택됨");
-			 console.log(selectedRegionText);
-             $('#dong_code').show();
-             if(!emdSelected || !polygonSelected) {
-                $('.emd').html(`<span class="selectedEmd">${thisVal}</span>`);
-                locationInnerText = locationInnerText + " " + thisVal;
-                areaName = areaName + " " + thisVal;
-                $('.locationText').text(locationInnerText);
-                $('#current-location').val(areaName);
+        $(document).on("click", "#dong_code li", function () {
+          let thisVal = $(this).text(); // 읍/면/동 이름으로 필터링
+          selectedRegionText = selectedRegionText + " " + thisVal;
+          console.log(thisVal + " 지역 카테고리 선택됨");
+          console.log(selectedRegionText);
+          $("#dong_code").show();
+          if (!emdSelected || !polygonSelected) {
+            $(".emd").html(`<span class="selectedEmd">${thisVal}</span>`);
+            locationInnerText = locationInnerText + " " + thisVal;
+            areaName = areaName + " " + thisVal;
+            $(".locationText").text(locationInnerText);
+            $("#current-location").val(areaName);
 
-                toggleDropdown('regionDropdown');
-				toggleDropdown('industryDropdown');
-             }
-             emdSelected = true;
-			 polygonSelected = true;
-         });
+            toggleDropdown("regionDropdown");
+            toggleDropdown("industryDropdown");
+          }
+          emdSelected = true;
+          polygonSelected = true;
+        });
+      });
 
-    });
-	
-	// 업종 카테고리 선택 시 상호작용 함수
-	$(function() {
-		$(document).on("click", "#food_Category", function() {
-			$("#food_Category li").html = `<li>한식</li>
+      // 업종 카테고리 선택 시 상호작용 함수
+      $(function () {
+        $(document).on("click", "#food_Category", function () {
+          $("#food_Category li").html = `<li>한식</li>
 			<li>중식</li>
 			<li>일식</li>
 			<li>양식</li>
 			`;
-		})
-		
-		$(document).on("click", "#cafe_Category", function() {
-			
-		})
-		
-		$(document).on("click", "#store_Category", function() {
-			
-		})
-	})
-	
-	// 상권분석 버튼 이벤트 함수
-	function viewReport() {
-		if(sidoSelected && sigSelected && emdSelected && polygonSelected) {
-			//TODO: 카테고리 선택내용을 기준으로 맵에 핀 팝업
-		}
-	}
-	
-	// 카테고리 선택 줌인 이벤트 함수
-	function zoomArea(regionName) {
+        });
 
+        $(document).on("click", "#cafe_Category", function () {});
 
-	}
-	
-	
-	// 공통 클래스 및 속성 초기화 함수
-	    function updateClassesAndVisibility(selectors, addClasses, removeClasses) {
-	        $(selectors).addClass(addClasses).removeClass(removeClasses);
-	    }
-		
-		// 모든 카테고리 체크 이후, 상권분석기능 실행하는 함수
-		function viewReport() {
-			if(sidoSelected && sigSelected && emdSelected && polygonSelected && industrySelected) {
-				console.log('viewReport Activated');
-			} else if (!sidoSelected || !sigSelected || !emdSelected || !polygonSelected) {
-				window.alert('분석하고 싶은 지역과 업종을 모두 선택 후 실행해주세요.');
-				toggleDropdown('regionDropdown-section');
-			} else if (!industrySelected) {
-				window.alert('업종이 선택되지 않았습니다.. 선택 후 버튼을 눌러주세요')
-				toggleDropdown('industryDropdown-section');
-			} else {
-				console.log('예기치 않은 오류 발생!!');
-			}
-		}
+        $(document).on("click", "#store_Category", function () {});
+      });
 
-    // 다시선택 버튼 클릭이벤트 함수
-    function resetSelection() {
-		
-		// 맵 렌더링 재실행
-		initMap();
-		
-		// 모든 필드변수 초기화
-		selectedRegionText = "";
-		polygonSelected = false;
+      // 상권분석 버튼 이벤트 함수
+      function viewReport() {
+        if (sidoSelected && sigSelected && emdSelected && polygonSelected) {
+          //TODO: 카테고리 선택내용을 기준으로 맵에 핀 팝업
+        }
+      }
+
+      // 카테고리 선택 줌인 이벤트 함수
+      function zoomArea(regionName) {}
+
+      // 공통 클래스 및 속성 초기화 함수
+      function updateClassesAndVisibility(
+        selectors,
+        addClasses,
+        removeClasses
+      ) {
+        $(selectors).addClass(addClasses).removeClass(removeClasses);
+      }
+
+      // 모든 카테고리 체크 이후, 상권분석기능 실행하는 함수
+      function viewReport() {
+        if (
+          sidoSelected &&
+          sigSelected &&
+          emdSelected &&
+          polygonSelected &&
+          industrySelected
+        ) {
+          console.log("viewReport Activated");
+        } else if (
+          !sidoSelected ||
+          !sigSelected ||
+          !emdSelected ||
+          !polygonSelected
+        ) {
+          window.alert(
+            "분석하고 싶은 지역과 업종을 모두 선택 후 실행해주세요."
+          );
+          toggleDropdown("regionDropdown-section");
+        } else if (!industrySelected) {
+          window.alert(
+            "업종이 선택되지 않았습니다.. 선택 후 버튼을 눌러주세요"
+          );
+          toggleDropdown("industryDropdown-section");
+        } else {
+          console.log("예기치 않은 오류 발생!!");
+        }
+      }
+
+      // 다시선택 버튼 클릭이벤트 함수
+      function resetSelection() {
+        // 맵 렌더링 재실행
+        initMap();
+
+        // 모든 필드변수 초기화
+        selectedRegionText = "";
+        polygonSelected = false;
         sidoSelected = false;
         sigSelected = false;
         emdSelected = false;
-		industrySelected = false;
+        industrySelected = false;
         areaName = "";
         locationInnerText = "";
 
-        $('#regionList').html(`
+        $("#regionList").html(`
         <ul id="sido_code" class="dropdown-content gridrow-3 scrollbar"></ul>
         <ul id="sigoon_code" class="dropdown-content gridrow-3 scrollbar" style="display:none;"></ul>
         <ul id="dong_code" class="dropdown-content gridrow-3 scrollbar" style="display:none;"></ul>
         `);
 
-		    // 초기화 작업
-		    updateClassesAndVisibility('.regionDropdown-section, .industryDropdown-section', '', 'dropdown-animation');
-		    updateClassesAndVisibility('.regionDropupArrow, .industryDropupArrow', 'invisible', '');
-		    updateClassesAndVisibility('.regionDropdownArrow, .industryDropdownArrow', '', 'invisible');
-		    updateClassesAndVisibility('.locationText, .regionDropupArrow, .regionDropdownArrow, .locationPin, .categorySelector, .industryDropupArrow, .industryDropdownArrow, .industryIcon', '', 'blue');
+        // 초기화 작업
+        updateClassesAndVisibility(
+          ".regionDropdown-section, .industryDropdown-section",
+          "",
+          "dropdown-animation"
+        );
+        updateClassesAndVisibility(
+          ".regionDropupArrow, .industryDropupArrow",
+          "invisible",
+          ""
+        );
+        updateClassesAndVisibility(
+          ".regionDropdownArrow, .industryDropdownArrow",
+          "",
+          "invisible"
+        );
+        updateClassesAndVisibility(
+          ".locationText, .regionDropupArrow, .regionDropdownArrow, .locationPin, .categorySelector, .industryDropupArrow, .industryDropdownArrow, .industryIcon",
+          "",
+          "blue"
+        );
 
-		    // 카테고리 선택자 HTML 초기화
-		    $('.category-selector').html(`
+        // 카테고리 선택자 HTML 초기화
+        $(".category-selector").html(`
 		        <span class="sido">시/도</span>
 		        <i class="fa-solid fa-angle-right progressAngle"></i>
 		        <span class="sig">시/군/구</span>
@@ -582,20 +708,19 @@ function initMap() {
 		        <span class="emd">읍/면/동</span>
 		    `);
 
-		    // 위치 텍스트 초기화
-		    $('.locationText').text("분석 지역을 선택해 주세요");
-		    $('#current-location').val("");
+        // 위치 텍스트 초기화
+        $(".locationText").text("분석 지역을 선택해 주세요");
+        $("#current-location").val("");
 
-			
-		    // 리셋 이후 데이터 재추출
-		    fetchRegionData("LT_C_ADSIDO_INFO", null, "#sido_code", "ctprvn_cd", "ctp_kor_nm");
-			
-		}
-
-
-
-
-</script>
-
-</body>
+        // 리셋 이후 데이터 재추출
+        fetchRegionData(
+          "LT_C_ADSIDO_INFO",
+          null,
+          "#sido_code",
+          "ctprvn_cd",
+          "ctp_kor_nm"
+        );
+      }
+    </script>
+  </body>
 </html>
