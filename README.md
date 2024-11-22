@@ -33,36 +33,32 @@ Fran's는 프랜차이즈 창업 정보를 제공하고, 지역 및 분야별 �
 
 ![Untitled](./readMe/Untitled%201.png)
 
-### 주요 기능
+### 구현 기능
 
 <aside>
-💡 로그인 페이지
+💡 상권 분석 페이지 - 사이드바 토글
 
 </aside>
 
-![Untitled](./readMe/Untitled%202.png)
+![Untitled](./readMe/사이드바-토글.gif)
 
 <aside>
-💡 회원가입 페이지
+💡 상권 분석 페이지 - 드랍다운 메뉴 클릭 이벤트
 
 </aside>
 
-![Untitled](./readMe/Untitled%203.png)
+![Untitled](./readMe/드랍다운클릭이벤트.gif)
 
 <aside>
-💡 프랜차이즈 정보 제공 페이지
+💡 상권 분석 페이지 - 폴리곤 클릭이벤트 및 상권분석버튼 이벤트
 
 </aside>
 
-![Untitled](./readMe/Untitled%204.png)
+![Untitled](./readMe/폴리곤클릭이벤트와-상권분석버튼.gif)
 
 <aside>
-💡 커뮤니티 페이지
+💡 상권 분석 페이지 - 폴리곤 활성화
 
 </aside>
 
-![Untitled](./readMe/Untitled%205.png)
-
-![Untitled](./readMe/Untitled%206.png)
-
-![Untitled](./readMe/Untitled%207.png)
+![Untitled](./readMe/폴리곤활성화.gif)
